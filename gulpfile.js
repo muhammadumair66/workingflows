@@ -4,7 +4,9 @@ coffee=require('gulp-coffee'),
 browserify=require('gulp-browserify'),
 compass=require('gulp-compass'),
 connect=require('gulp-connect'),
-concat=require('gulp-concat');
+concat=require('gulp-concat'),
+gulpif=require('gulp-if'),
+uglify=require('gulp-uglify');
 var env,outputdir,sassstyle;
 env = process.env.NODE_ENV || 'development' ;
 if (env==='development'){
@@ -35,6 +37,7 @@ gulp.task('js',function(){
 	gulp.src(jssources)
 	.pipe(concat('script.js'))
 	.pipe(browserify())
+	.pipe(gulpif(env==='production',uglify()))
 	.pipe(gulp.dest(outputdir +'js'))
 	.pipe(connect.reload())
 });
