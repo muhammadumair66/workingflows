@@ -14,6 +14,8 @@ var jssources=['components/scripts/rclick.js',
 
 ];
 var sasssources=['components/sass/style.scss'];
+var htmlsources=['builds/development/*.html'];
+var jsonsources=['builds/development/js/*.json']
 gulp.task('coffee',function(){
 gulp.src('coffeesources')
 .pipe(coffee({bare:true})
@@ -42,11 +44,21 @@ gulp.task('watch',function(){
 	gulp.watch(coffeesources,['coffee']);
 	gulp.watch(jssources,['js']);
 	gulp.watch('components/sass/*.scss',['compass']);
+	gulp.watch(htmlsources,['html']);
+	gulp.watch(jsonsources,['json']);
 });
-gulp.task('default',['coffee','js','compass','connect','watch']);
+gulp.task('default',['coffee','html','json','js','compass','connect','watch']);
 gulp.task('connect',function(){
 connect.server({
 	root:'builds/development/',
 	livereload:true
 });
+});
+gulp.task('html',function(){
+	gulp.src(htmlsources)
+	.pipe(connect.reload())
+});
+gulp.task('json',function(){
+	gulp.src(jsonsources)
+	.pipe(connect.reload())
 });
